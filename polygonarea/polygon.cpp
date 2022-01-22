@@ -1,5 +1,7 @@
 /*
  * polygon.cpp
+ *
+ * Author: Filip Jaredson
  */
 #include<iostream>
 #include "polygon.h"
@@ -20,6 +22,7 @@ Polygon::Polygon(std::vector<int> _x, std::vector<int> _y)
 //
 // Note: area() returns a negative area if the contained points form a clockwise turn
 // Complexity: O(# of points)
+//
 double Polygon::area() const
 { 
   int N = points.size();
@@ -33,6 +36,7 @@ double Polygon::area() const
 //
 // Check if the polygon contains the point (x0,y0)
 // Complexity: O(# of points)
+//
 bool Polygon::contains(const double& x0, const double& y0) const
 {
   int N = points.size();

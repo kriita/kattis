@@ -1,5 +1,7 @@
 /*
  * Simple point class
+ *
+ * Author: Filip Jaredson
  */
 #include<cmath>
 #include<tuple>
@@ -48,7 +50,8 @@ double Point::distanceTo(const Point& p) const
 }
 
 // Point.distanceTo(p1,p2)
-// Returns the distance between the point and the line segment spanned by p1 and p2
+// Returns the distance between the point and the line segment spanned by p1 and
+// p2.
 //
 double Point::distanceTo(const Point& p1, const Point& p2) const
 {
@@ -80,11 +83,13 @@ double Point::dot(const Point& p) const
 }
 
 // Point.ccw(b, c)
-// Checks if the three-point-sequence makes a clockwise turn, counter-clockwise turn, or are colinear
+// Checks if the three-point-sequence makes a clockwise turn, counter-clockwise
+// turn, or are colinear.
 // Return values:
 // ..clockwise:          1
 // ..counter-clockwise: -1
 // ..colinear:           0
+//
 int Point::ccw(const Point& b, const Point& c) const
 {
   int area2 = (b.x-x)*(c.y-y) - (b.y-y)*(c.x-x);
@@ -93,16 +98,24 @@ int Point::ccw(const Point& b, const Point& c) const
   return 0;
 }
 
+// Point.operator<(p)
+// Returns true if the point has smaller x value than p, or equal x but smaller
+// y than p.
+//
 bool Point::operator<(const Point& p) const
 {
   return std::tie(x, y) < std::tie(p.x, p.y);
 }
 
+// Point.operator==(p)
+// Returns true if the points have equal coordinates.
 bool Point::operator==(const Point& p) const
 {
   return !(*this < p || p < *this);
 }
 
+// Point.operator!=(p)
+// Returns true if the points do not have equal coordinates.
 bool Point::operator!=(const Point& p) const
 {
   return *this < p || p < *this;
