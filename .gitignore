@@ -33,3 +33,13 @@
 # Executables
 *.exe
 *.app
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Compiled out files
+*.out
+
