@@ -1,3 +1,3 @@
-# TDDD95
+# Kattis
 
-My solutions to the kattis problems from the course TDDD95 - Algorithmic Problem Solving. 
+My solutions to kattis problems
