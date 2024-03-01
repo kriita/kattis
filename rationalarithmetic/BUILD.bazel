@@ -1,0 +1,31 @@
+cc_library(
+    name = "RationalNumber",
+    srcs = ["rationalnumber.cpp"],
+    hdrs = ["rationalnumber.hpp"],
+)
+
+cc_test(
+    name = "RationalNumberTest",
+    size = "small",
+    srcs = ["rational_number_test.cpp"],
+    deps = [
+        ":RationalNumber",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_binary(
+    name = "RationalArithmetic",
+    srcs = ["rationalarithmetic.cpp"],
+    deps = [":RationalNumber"],
+)
+
+sh_test(
+    name = "RationalArithemticTest",
+    srcs = ["rationalarithmetic_test.sh"],
+    data = [
+        ":RationalArithmetic",
+        "sample.in",
+        "sample.out",
+    ],
+)
