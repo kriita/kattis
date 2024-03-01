@@ -43,3 +43,10 @@
 # Compiled out files
 *.out
 
+# Bazel sandbox and output
+bazel-*
+
+# Other files
+*.log
+*.bak
+*.swp
