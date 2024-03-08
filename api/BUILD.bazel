@@ -1,0 +1,53 @@
+cc_library(
+    name = "Point",
+    srcs = ["point.cpp"],
+    hdrs = ["point.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_test(
+    name = "PointTest",
+    srcs = ["PointTest.cpp"],
+    deps = [
+        ":Point",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_library(
+    name = "Edge",
+    srcs = ["edge.cpp"],
+    hdrs = ["edge.h"],
+    deps = [":Point"],
+    visibility = ["//visibility:public"],
+)
+
+cc_test(
+    name = "EdgeTest",
+    srcs = ["EdgeTest.cpp"],
+    deps = [
+        ":Edge",
+        ":Point",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_library(
+    name = "Polygon",
+    srcs = ["polygon.cpp"],
+    hdrs = ["polygon.h"],
+    deps = [":Edge"],
+    visibility = ["//visibility:public"],
+)
+
+cc_test(
+    name = "PolygonTest",
+    srcs = ["PolygonTest.cpp"],
+    deps = [
+        ":Polygon",
+        ":Edge",
+        ":Point",
+        "@googletest//:gtest_main",
+    ],
+)
+
