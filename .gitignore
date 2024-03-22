@@ -40,9 +40,6 @@
 *.idb
 *.pdb
 
-# Compiled out files
-*.out
-
 # Bazel sandbox and output
 bazel-*
 
