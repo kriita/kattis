@@ -1,21 +1,30 @@
 #ifndef EDGE_H
 #define EDGE_H
+#include<iostream>
+#include<vector>
+
 #include "point.h"
 
 class Edge
 {
 public:
-  Edge(Point _u, Point _v, double _weight = 0);
+  Edge(Point _u = Point(), Point _v = Point(), double _weight = 0);
   ~Edge() = default;
 
   Point u, v;
   double weight;
   
+  int ccw(const Point& p) const;
+  bool overlap(const Edge& e) const;
   bool intersect(const Edge& e) const;
   bool contains(const Point& p) const;
   double length() const;
 
+  std::vector<Point> intersection(const Edge& e) const;
+
   bool operator<(const Edge& e) const;
+  bool operator==(const Edge& e) const;
+  friend std::istream& operator>>(std::istream& is, Edge& e);
 };
 
 #endif

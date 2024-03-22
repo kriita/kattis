@@ -4,6 +4,7 @@
  * Author: Filip Jaredson
  */
 #include<cmath>
+#include<iostream>
 #include<tuple>
 #include "point.h"
 
@@ -92,9 +93,11 @@ double Point::dot(const Point& p) const
 //
 int Point::ccw(const Point& b, const Point& c) const
 {
-  int area2 = (b.x-x)*(c.y-y) - (b.y-y)*(c.x-x);
-  if ( area2 < 0) return -1;
-  if ( area2 > 0) return 1;
+  Point ab(b.x - x, b.y - y);
+  Point ac(c.x - x, c.y - y);
+  double cross = ab.cross(ac);
+  if(cross > 0) return 1;
+  if(cross < 0) return -1;
   return 0;
 }
 
@@ -112,6 +115,14 @@ Point Point::operator+(const Point& p) const
 Point Point::operator-(const Point& p) const
 {
   return Point(x - p.x, y - p.y);
+}
+
+// Point.operator*(c)
+// Returns the point that is the product of the point and the scalar c.
+//
+Point Point::operator*(double c) const
+{
+  return Point(x * c, y * c);
 }
 
 // Point.operator<(p)
@@ -137,3 +148,18 @@ bool Point::operator!=(const Point& p) const
   return *this < p || p < *this;
 }
 
+// Point.operator>>(is, p)
+// Reads a point from the input stream is
+std::istream& operator>>(std::istream& is, Point& p)
+{
+  is >> p.x >> p.y;
+  return is;
+}
+
+// Point.operator<<(os, p)
+// Writes the point to the output stream os
+std::ostream& operator<<(std::ostream& os, const Point& p)
+{
+  os << p.x << " " << p.y;
+  return os;
+}

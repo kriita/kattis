@@ -1,0 +1,17 @@
+cc_binary(
+    name = "PointInPolygon",
+    srcs = ["pointinpolygon.cpp"],
+    deps = ["//api:Polygon"],
+    visibility = ["//visibility:public"],
+)
+
+sh_test(
+    name = "PointInPolygonTest",
+    srcs = ["pointinpolygon_test.sh"],
+    data = [
+        ":PointInPolygon",
+        "sample.in",
+        "sample.out",
+    ],
+    visibility = ["//visibility:public"],
+)

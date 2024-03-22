@@ -1,6 +1,8 @@
 #ifndef POINT_H
 #define POINT_H
 
+#include <iostream>
+
 class Point
 {
 public:
@@ -21,9 +23,13 @@ public:
 
   Point operator+(const Point& p) const;
   Point operator-(const Point& p) const;
+  Point operator*(double c) const;
   bool operator<(const Point& p) const;
   bool operator==(const Point& p) const;
   bool operator!=(const Point& p) const;
+
+  friend std::istream& operator>>(std::istream& is, Point& p);
+  friend std::ostream& operator<<(std::ostream& os, const Point& p);
 };
 
 #endif

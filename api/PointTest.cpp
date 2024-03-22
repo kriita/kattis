@@ -40,6 +40,13 @@ TEST(PointTest, Subtract) {
   EXPECT_EQ(-2, p3.y);
 }
 
+TEST(PointTest, MultiplyWithScalar) {
+  Point p(1, 2);
+  Point p2 = p * 2;
+  EXPECT_EQ(2, p2.x);
+  EXPECT_EQ(4, p2.y);
+}
+
 TEST(PointTest, Length) {
   Point p(3, 4);
   EXPECT_EQ(5, p.length());
@@ -77,6 +84,20 @@ TEST(PointTest, CCW) {
   EXPECT_EQ(0, p1.ccw(p2, p3));
 }
 
+TEST(PointTest, CCWNegative) {
+  Point p1(1, 0);
+  Point p2(0, 0);
+  Point p3(0, 1);
+  EXPECT_EQ(p1.ccw(p2, p3), -1);
+}
+
+TEST(PointTest, CCWPositive) {
+  Point p1(0, 0);
+  Point p2(1, 0);
+  Point p3(0, 1);
+  EXPECT_EQ(p1.ccw(p2, p3), 1);
+}
+
 TEST(PointTest, LessThan) {
   Point p1(1, 2);
   Point p2(3, 4);
@@ -93,4 +114,20 @@ TEST(PointTest, NotEqual) {
   Point p1(1, 2);
   Point p2(3, 4);
   EXPECT_TRUE(p1 != p2);
+}
+
+TEST(PointTest, OperatorInput) {
+  Point p1(1, 2);
+  std::stringstream ss;
+  ss << p1;
+  Point p2;
+  ss >> p2;
+  EXPECT_EQ(p1, p2);
+}
+
+TEST(PointTest, OperatorOutput) {
+  Point p1(1, 2);
+  std::stringstream ss;
+  ss << p1;
+  EXPECT_EQ("1 2", ss.str());
 }
