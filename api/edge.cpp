@@ -25,7 +25,7 @@ Edge::Edge(Point _u, Point _v, long double _weight) :
 // edge, and 0 if p is on the edge
 int Edge::ccw(const Point& p) const
 {
-  return u.ccw(v, p);
+  return u.ccw(p, v);
 }
 
 // overlap(e2)
@@ -55,6 +55,13 @@ bool Edge::intersect(const Edge& e2) const
   if (overlap(e2))
     return true;
 
+  // If one of the edges is a single point, the edges only intersect if the
+  // point is on the other edge
+  if (u == v)
+    return e2.contains(u);
+  if (e2.u == e2.v)
+    return contains(e2.u);
+
   // The edges intersect
   int test1 = ccw(e2.u) * ccw(e2.v);
   int test2 = e2.ccw(u) * e2.ccw(v);
@@ -75,6 +82,34 @@ bool Edge::contains(const Point& p) const
 long double Edge::length() const
 {
   return sqrt(pow((v.x - u.x),2) + pow((v.y - u.y), 2));
+}
+
+// distanceTo(p)
+// Returns the euclidian distance from the point p to the edge
+long double Edge::distanceTo(const Point& p) const
+{
+  return p.distanceTo(u, v);
+}
+
+// distanceTo(e)
+// Returns the euclidian distance from the edge to the edge e
+long double Edge::distanceTo(const Edge& e) const
+{
+  // If the lines intersect, the distance is 0
+  if (intersect(e))
+    return 0;
+
+  std::vector<long double> distances;
+  distances.push_back(distanceTo(e.u));
+  distances.push_back(distanceTo(e.v));
+  distances.push_back(e.distanceTo(u));
+  distances.push_back(e.distanceTo(v));
+
+  long double dist = std::numeric_limits<long double>::max();
+  for (size_t i = 0; i < distances.size(); ++i)
+    dist = std::min(dist, distances[i]);
+
+  return dist;
 }
 
 // intersection(e)

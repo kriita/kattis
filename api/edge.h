@@ -13,13 +13,15 @@ public:
 
   Point u, v;
   long double weight;
+  long double length() const;
   
   int ccw(const Point& p) const;
   bool overlap(const Edge& e) const;
   bool intersect(const Edge& e) const;
   bool contains(const Point& p) const;
-  long double length() const;
 
+  long double distanceTo(const Point& p) const;
+  long double distanceTo(const Edge& e) const;
   std::vector<Point> intersection(const Edge& e) const;
 
   bool operator<(const Edge& e) const;

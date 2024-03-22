@@ -56,15 +56,22 @@ long double Point::distanceTo(const Point& p) const
 //
 long double Point::distanceTo(const Point& p1, const Point& p2) const
 {
-  Point p1p2(p2.x - p1.x, p2.y - p1.y);
-  Point p1p(x - p1.x, y - p1.y); 
-  Point p2p(x - p2.x, y - p2.y);
+  // If p1 == p2, the distance is the distance to p1
+  if(p1 == p2)
+    return distanceTo(p1);
 
-  if(p1p2.dot(p1p) <= 0) return p1p.length();
+  // Calculate the projection of the point on the line spanned by p1 and p2
+  Point a = p2 - p1;
+  Point b = *this - p1;
+  long double proj = a.dot(b) / a.dot(a);
 
-  if(p1p2.dot(p2p) >= 0) return p2p.length();
+  if(proj < 0)
+    return distanceTo(p1);
 
-  return abs(p1p2.cross(p1p))/p1p2.length();
+  if(proj > 1)
+    return distanceTo(p2);
+
+  return distanceTo(p1 + a * proj);
 }
 
 // Point.cross(p)

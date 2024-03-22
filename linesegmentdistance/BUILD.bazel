@@ -1,0 +1,19 @@
+cc_binary(
+    name = "LineSegmentDistance",
+    srcs = ["LineSegmentDistance.cpp"],
+    deps = [
+        "//api:Point",
+        "//api:Edge",
+    ],
+)
+
+sh_test(
+    name = "LineSegmentDistanceTest",
+    srcs = ["linesegmentdistance_test.sh"],
+    data = [
+        ":LineSegmentDistance",
+        "sample.in",
+        "sample.out",
+    ],
+    visibility = ["//visibility:public"],
+)
