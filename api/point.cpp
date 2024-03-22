@@ -11,14 +11,14 @@
 // Point(x, y)
 // Constructor for a point (x,y)
 //
-Point::Point(double _x,double _y) :
+Point::Point(long double _x,long double _y) :
   x(_x),y(_y) 
 {} 
 
 // Point.angle()
 // returns the angle to the point in radians
 //
-double Point::angle() const
+long double Point::angle() const
 {
   return atan(y/x);
 }
@@ -26,7 +26,7 @@ double Point::angle() const
 // Point.angleTo(p)
 // returns the angle between the point and p in radians
 //
-double Point::angleTo(const Point& p) const
+long double Point::angleTo(const Point& p) const
 {
   return atan((p.y-y)/(p.x-x));
 }
@@ -34,7 +34,7 @@ double Point::angleTo(const Point& p) const
 // Point.length()
 // returns the distance to the point from the origin
 //
-double Point::length() const
+long double Point::length() const
 {
   Point origin(0,0);
   return distanceTo(origin);
@@ -43,10 +43,10 @@ double Point::length() const
 // Point.distanceTo(p)
 // returns the distance to the point p
 //
-double Point::distanceTo(const Point& p) const
+long double Point::distanceTo(const Point& p) const
 {
-  double dx = x - p.x;
-  double dy = y - p.y;
+  long double dx = x - p.x;
+  long double dy = y - p.y;
   return sqrt(dx*dx + dy*dy);
 }
 
@@ -54,7 +54,7 @@ double Point::distanceTo(const Point& p) const
 // Returns the distance between the point and the line segment spanned by p1 and
 // p2.
 //
-double Point::distanceTo(const Point& p1, const Point& p2) const
+long double Point::distanceTo(const Point& p1, const Point& p2) const
 {
   Point p1p2(p2.x - p1.x, p2.y - p1.y);
   Point p1p(x - p1.x, y - p1.y); 
@@ -70,7 +70,7 @@ double Point::distanceTo(const Point& p1, const Point& p2) const
 // Point.cross(p)
 // Returns the cross product with the point p
 // 
-double Point::cross(const Point& p) const
+long double Point::cross(const Point& p) const
 {
   return (x * p.y - y * p.x);
 }
@@ -78,7 +78,7 @@ double Point::cross(const Point& p) const
 // Point.dot(p)
 // Returns the dot product with the point p
 //
-double Point::dot(const Point& p) const
+long double Point::dot(const Point& p) const
 {
   return(x * p.x + y * p.y);
 }
@@ -95,7 +95,7 @@ int Point::ccw(const Point& b, const Point& c) const
 {
   Point ab(b.x - x, b.y - y);
   Point ac(c.x - x, c.y - y);
-  double cross = ab.cross(ac);
+  long double cross = ab.cross(ac);
   if(cross > 0) return 1;
   if(cross < 0) return -1;
   return 0;
@@ -120,7 +120,7 @@ Point Point::operator-(const Point& p) const
 // Point.operator*(c)
 // Returns the point that is the product of the point and the scalar c.
 //
-Point Point::operator*(double c) const
+Point Point::operator*(long double c) const
 {
   return Point(x * c, y * c);
 }

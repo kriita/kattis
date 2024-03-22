@@ -8,17 +8,17 @@
 class Edge
 {
 public:
-  Edge(Point _u = Point(), Point _v = Point(), double _weight = 0);
+  Edge(Point _u = Point(), Point _v = Point(), long double _weight = 0);
   ~Edge() = default;
 
   Point u, v;
-  double weight;
+  long double weight;
   
   int ccw(const Point& p) const;
   bool overlap(const Edge& e) const;
   bool intersect(const Edge& e) const;
   bool contains(const Point& p) const;
-  double length() const;
+  long double length() const;
 
   std::vector<Point> intersection(const Edge& e) const;
 

@@ -6,24 +6,24 @@
 class Point
 {
 public:
-  Point(double _x = 0, double _y = 0);
+  Point(long double _x = 0, long double _y = 0);
 
-  double x, y;
+  long double x, y;
 
-  double angle() const;
-  double angleTo(const Point& p) const;
+  long double angle() const;
+  long double angleTo(const Point& p) const;
 
-  double length() const;
-  double distanceTo(const Point& p) const;
-  double distanceTo(const Point& p1, const Point& p2) const;
+  long double length() const;
+  long double distanceTo(const Point& p) const;
+  long double distanceTo(const Point& p1, const Point& p2) const;
 
-  double cross(const Point& p) const;
-  double dot(const Point& p) const;
+  long double cross(const Point& p) const;
+  long double dot(const Point& p) const;
   int ccw(const Point& b, const Point& c) const;
 
   Point operator+(const Point& p) const;
   Point operator-(const Point& p) const;
-  Point operator*(double c) const;
+  Point operator*(long double c) const;
   bool operator<(const Point& p) const;
   bool operator==(const Point& p) const;
   bool operator!=(const Point& p) const;

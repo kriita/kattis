@@ -1,0 +1,19 @@
+cc_binary(
+    name = "LineSegmentIntersection",
+    srcs = ["LineSegmentIntersection.cpp"],
+    deps = [
+        "//api:Point",
+        "//api:Edge",
+    ],
+)
+
+sh_test(
+    name = "LineSegmentIntersectionTest",
+    srcs = ["linesegmentintersection_test.sh"],
+    data = [
+        ":LineSegmentIntersection",
+        "sample.in",
+        "sample.out",
+    ],
+    visibility = ["//visibility:public"],
+)

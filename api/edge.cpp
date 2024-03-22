@@ -12,7 +12,7 @@
 #include "point.h"
 
 // Standard constructor
-Edge::Edge(Point _u, Point _v, double _weight) :
+Edge::Edge(Point _u, Point _v, long double _weight) :
   u(_u), v(_v), weight(_weight)
 {
   if (v < u)
@@ -72,7 +72,7 @@ bool Edge::contains(const Point& p) const
 // length()
 //
 // Returns the euclidian length of the edge
-double Edge::length() const
+long double Edge::length() const
 {
   return sqrt(pow((v.x - u.x),2) + pow((v.y - u.y), 2));
 }
@@ -134,7 +134,7 @@ std::vector<Point> Edge::intersection(const Edge& e) const
   }
 
   // The edges intersect at a single point
-  double t = (e.u - u).cross(e.v - e.u) / (v - u).cross(e.v - e.u);
+  long double t = (e.u - u).cross(e.v - e.u) / (v - u).cross(e.v - e.u);
   Point intersection = u + (v - u) * t;
   result.push_back(intersection);
 
