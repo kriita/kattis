@@ -28,12 +28,46 @@ int Edge::ccw(const Point& p) const
   return u.ccw(p, v);
 }
 
+// contains(p)
+//
+// Returns true if the point p lies on the edge
+bool Edge::contains(const Point& p) const
+{
+  return p.distanceTo(u, v) == 0;
+}
+
+// singlePointIntersect(e2)
+// Checks if the edge intersects at a single point with the edge e2
+// Returns true if the edges intersect at a single point, false otherwise
+bool Edge::singlePointIntersect(const Edge& e2) const
+{
+  // If one of the edges is a single point, the edges only intersect if the
+  // point is on the other edge
+  if (u == v)
+    return e2.contains(u);
+  if (e2.u == e2.v)
+    return contains(e2.u);
+
+  int test1 = ccw(e2.u) * ccw(e2.v);
+  int test2 = e2.ccw(u) * e2.ccw(v);
+
+  // If the edges are colinear, check if they intersect at a single point
+  if (test1 == 0 && test2 == 0)
+    return v == e2.u || u == e2.v || v == e2.v || u == e2.u;
+  
+  return test1 <= 0 && test2 <= 0;
+}
+
 // overlap(e2)
 // Checks if the edge is collinear and overlaps with the edge e2
 // Returns true if the edges overlap, false otherwise
 bool Edge::overlap(const Edge& e2) const
 {
-  // The edge cannot overlap if it is a single point
+  if (singlePointIntersect(e2))
+    return true;
+
+
+  // The edge cannot overlap one is a single point without an intersect
   if (u == v || e2.u == e2.v)
     return false;
 
@@ -42,38 +76,12 @@ bool Edge::overlap(const Edge& e2) const
   int ccw3 = e2.ccw(u);
   int ccw4 = e2.ccw(v);
 
-  // The edges are collinear and overlap
-  return ccw1 == 0 && ccw2 == 0 && ccw3 == 0 && ccw4 == 0;
-}
-
-// intersect(e2)
-// Checks if the edge intersects with the edge e2
-// Returns true if the edges intersect, false otherwise
-bool Edge::intersect(const Edge& e2) const
-{
-  // The edges are collinear and overlap
-  if (overlap(e2))
-    return true;
-
-  // If one of the edges is a single point, the edges only intersect if the
-  // point is on the other edge
-  if (u == v)
-    return e2.contains(u);
-  if (e2.u == e2.v)
-    return contains(e2.u);
-
-  // The edges intersect
-  int test1 = ccw(e2.u) * ccw(e2.v);
-  int test2 = e2.ccw(u) * e2.ccw(v);
-  return test1 <= 0 && test2 <= 0;
-}
-
-// on(p)
-//
-// Returns true if the point p lies on the edge
-bool Edge::contains(const Point& p) const
-{
-  return p.distanceTo(u, v) == 0;
+  // The edges are collinear
+  if (ccw1 == 0 && ccw2 == 0 && ccw3 == 0 && ccw4 == 0)
+    // The edges overlap if the endpoints of one edge are contained in the other
+    return contains(e2.u) || contains(e2.v) || e2.contains(u) || e2.contains(v);
+  
+  return false;
 }
 
 // length()
@@ -96,7 +104,7 @@ long double Edge::distanceTo(const Point& p) const
 long double Edge::distanceTo(const Edge& e) const
 {
   // If the lines intersect, the distance is 0
-  if (intersect(e))
+  if (singlePointIntersect(e))
     return 0;
 
   std::vector<long double> distances;
@@ -122,8 +130,38 @@ std::vector<Point> Edge::intersection(const Edge& e) const
   std::vector<Point> result;
   
   // Check if the edges intersect
-  if (!intersect(e))
+  if (singlePointIntersect(e))
+  {
+    if (ccw(e.u) == 0)
+    {
+      result.push_back(e.u);
+      return result;
+    }
+
+    if (ccw(e.v) == 0)
+    {
+      result.push_back(e.v);
+      return result;
+    }
+
+    if (e.ccw(u) == 0)
+    {
+      result.push_back(u);
+      return result;
+    }
+
+    if (e.ccw(v) == 0)
+    {
+      result.push_back(v);
+      return result;
+    }
+
+    // The edges intersect at a single point
+    long double t = (e.u - u).cross(e.v - e.u) / (v - u).cross(e.v - e.u);
+    Point intersection = u + (v - u) * t;
+    result.push_back(intersection);
     return result;
+  }
 
   // The edges are collinear and overlap
   if (overlap(e))
@@ -135,44 +173,7 @@ std::vector<Point> Edge::intersection(const Edge& e) const
     return result;
   }
 
-  // The edges are both single points
-  if (u == v && e.u == e.v)
-  {
-    if (u == e.u)
-      result.push_back(u);
-    return result;
-  }
-
   // The edges intersect at a single point
-  if (ccw(e.u) == 0)
-  {
-    result.push_back(e.u);
-    return result;
-  }
-
-  if (ccw(e.v) == 0)
-  {
-    result.push_back(e.v);
-    return result;
-  }
-
-  if (e.ccw(u) == 0)
-  {
-    result.push_back(u);
-    return result;
-  }
-
-  if (e.ccw(v) == 0)
-  {
-    result.push_back(v);
-    return result;
-  }
-
-  // The edges intersect at a single point
-  long double t = (e.u - u).cross(e.v - e.u) / (v - u).cross(e.v - e.u);
-  Point intersection = u + (v - u) * t;
-  result.push_back(intersection);
-
   return result;
 }
 

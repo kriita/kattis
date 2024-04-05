@@ -16,9 +16,9 @@ public:
   long double length() const;
   
   int ccw(const Point& p) const;
-  bool overlap(const Edge& e) const;
-  bool intersect(const Edge& e) const;
   bool contains(const Point& p) const;
+  bool singlePointIntersect(const Edge& e) const;
+  bool overlap(const Edge& e) const;
 
   long double distanceTo(const Point& p) const;
   long double distanceTo(const Edge& e) const;
